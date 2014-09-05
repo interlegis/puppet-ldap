@@ -1,0 +1,9 @@
+#!/bin/bash
+
+BACKUP_PATH=<%= @backup_path %>
+SLAPCAT=`which slapcat`
+
+<% @backup_dbs.each_pair do |key, value| -%>
+nice ${SLAPCAT} -n <%= key %> > ${BACKUP_PATH}/<%= value %>
+<% end -%>
+chmod 640 ${BACKUP_PATH}/*.ldif
