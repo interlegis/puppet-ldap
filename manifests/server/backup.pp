@@ -23,7 +23,11 @@ class ldap::server::backup (
                    1 => 'domain.ldif' }
 ) {
   
-  require ldap::server::master
+  if !defined (Class['Ldap::Server::Master']) and !defined ( Class['Ldap::Server::Slave']) {
+    fail('You must include ldap::server::master or ldap::server::slave before ldap::server::backup.')
+  }
+
+  require ldap
 
   file { $backup_path:
     ensure  => $ensure ? {
